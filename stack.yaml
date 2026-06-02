@@ -1,0 +1,27 @@
+version: 1.0
+provider:
+  name: openfaas
+  gateway: http://127.0.0.1:8080
+functions:
+  fetch-weather:
+    lang: node22
+    handler: ./fetch-weather
+    image: samfoul/fetch-weather:latest
+    labels:
+      com.openfaas.scale.min: "1"
+      com.openfaas.scale.max: "5"
+      com.openfaas.scale.factor: "20"
+  
+  store-weather:
+    lang: node22
+    handler: ./store-weather
+    image: samfoul/store-weather:latest
+    secrets:
+      - db-password
+
+  get-history:
+    lang: node22
+    handler: ./get-history
+    image: samfoul/get-history:latest
+    secrets:
+      - db-password
